@@ -123,5 +123,3 @@ gatekeep-extension/
 Solved puzzles are stored in `localStorage` with an expiry timestamp. After the `unlockDurationMinutes` window, the gate reappears. This is per-browser-profile and clears if the user clears site data.
 
 For a more robust solution, you could migrate the unlock state to `chrome.storage.local` (already in permissions) for cross-tab persistence — the architecture is ready for this.
-
-# gatekeep

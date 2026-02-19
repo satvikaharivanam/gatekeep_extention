@@ -1,4 +1,4 @@
-# 🔒 GateKeep — Puzzle-Gated Website Access
+# GateKeep — Puzzle-Gated Website Access
 
 A cross-browser extension (Chrome + Safari) that requires you to solve a challenge before accessing distracting websites.
 
@@ -90,11 +90,11 @@ challengeType: "math"   // use the math challenge instead
 5. Add the script to `manifest.json`'s `content_scripts.js` array
 
 Ideas for future challenges:
-- 🔤 Typing speed test
-- 🧠 Memory card flip
-- 📚 Vocabulary/trivia quiz
-- 🎵 Music theory ear training
-- ✏️ "Write 3 reasons you need this site right now"
+- Typing speed test
+- Memory card flip
+- Vocabulary/trivia quiz
+- Music theory ear training
+- "Write 3 reasons you need this site right now"
 
 ---
 
@@ -118,7 +118,7 @@ gatekeep-extension/
 
 ---
 
-## 🔑 Unlock Storage
+##  Unlock Storage
 
 Solved puzzles are stored in `localStorage` with an expiry timestamp. After the `unlockDurationMinutes` window, the gate reappears. This is per-browser-profile and clears if the user clears site data.
 

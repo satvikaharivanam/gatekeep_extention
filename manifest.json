@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "GateKeep",
+  "version": "1.0.0",
+  "description": "Puzzle-gated access to distracting websites. Solve the challenge, earn your visit.",
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+
+  "host_permissions": [
+    "*://*.netflix.com/*",
+    "*://*.youtube.com/*",
+    "*://*.twitter.com/*",
+    "*://*.x.com/*",
+    "*://*.reddit.com/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.netflix.com/*",
+        "*://*.youtube.com/*",
+        "*://*.twitter.com/*",
+        "*://*.x.com/*",
+        "*://*.reddit.com/*"
+      ],
+      "js": ["config.js", "challenges/sudoku.js", "challenges/math.js", "content.js"],
+      "css": ["styles/gate.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "gatekeep@extension"
+    }
+  }
+}

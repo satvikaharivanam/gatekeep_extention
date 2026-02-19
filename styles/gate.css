@@ -1,0 +1,325 @@
+/* ============================================================
+   GateKeep — Gate Overlay Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap');
+
+/* ── Reset / Base ────────────────────────────────────────── */
+#gk-overlay *,
+#gk-overlay *::before,
+#gk-overlay *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Full-screen overlay ─────────────────────────────────── */
+#gk-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: #0a0a0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Syne', sans-serif;
+  overflow-y: auto;
+  animation: gk-fadein 0.3s ease;
+}
+
+#gk-overlay.gk-unlocking {
+  animation: gk-fadeout 0.8s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes gk-fadein {
+  from { opacity: 0; transform: scale(1.01); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes gk-fadeout {
+  to { opacity: 0; transform: scale(0.97); }
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.gk-topbar {
+  width: 100%;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  flex-shrink: 0;
+}
+
+.gk-logo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e8e8e8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gk-site-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #666;
+  letter-spacing: 0.05em;
+}
+
+/* ── Container ───────────────────────────────────────────── */
+#gk-container {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px 60px;
+  width: 100%;
+}
+
+/* ── Challenge wrapper ───────────────────────────────────── */
+.gk-challenge {
+  width: 100%;
+  max-width: 560px;
+  animation: gk-slideup 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes gk-slideup {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.gk-challenge-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.gk-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: #e84040;
+  border: 1px solid rgba(232,64,64,0.3);
+  padding: 4px 10px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+  background: rgba(232,64,64,0.06);
+}
+
+.gk-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #f0f0f0;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.gk-subtitle {
+  font-size: 14px;
+  color: #555;
+  font-weight: 400;
+}
+
+/* ── Sudoku Grid ─────────────────────────────────────────── */
+.gk-sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: #111118;
+}
+
+.gk-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(12px, 2.2vw, 18px);
+  font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: default;
+  transition: background 0.1s;
+  position: relative;
+  color: #ccc;
+  user-select: none;
+}
+
+/* 3×3 box borders */
+.gk-cell:nth-child(3n) { border-right-color: rgba(255,255,255,0.18); }
+.gk-cell:nth-child(n+19):nth-child(-n+27),
+.gk-cell:nth-child(n+46):nth-child(-n+54) {
+  border-bottom-color: rgba(255,255,255,0.18);
+}
+
+.gk-cell.gk-given {
+  color: #fff;
+  font-weight: 700;
+  background: rgba(255,255,255,0.04);
+}
+
+.gk-cell.gk-editable {
+  cursor: pointer;
+  color: #7eb8f7;
+}
+.gk-cell.gk-editable:hover { background: rgba(126,184,247,0.08); }
+.gk-cell.gk-selected {
+  background: rgba(126,184,247,0.18) !important;
+  color: #fff;
+}
+.gk-cell.gk-highlight { background: rgba(255,255,255,0.04); }
+.gk-cell.gk-error {
+  color: #e84040 !important;
+  background: rgba(232,64,64,0.12) !important;
+  animation: gk-shake 0.3s ease;
+}
+
+@keyframes gk-shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* ── Numpad ──────────────────────────────────────────────── */
+.gk-numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.gk-numpad-btn {
+  padding: 12px 0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  color: #ddd;
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.gk-numpad-btn:hover {
+  background: rgba(126,184,247,0.15);
+  border-color: rgba(126,184,247,0.4);
+  color: #fff;
+}
+.gk-numpad-btn.gk-erase {
+  background: rgba(232,64,64,0.08);
+  border-color: rgba(232,64,64,0.2);
+  color: #e84040;
+}
+
+/* ── Actions ─────────────────────────────────────────────── */
+.gk-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.gk-status {
+  flex: 1;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  min-height: 20px;
+  transition: color 0.2s;
+  color: #555;
+}
+.gk-status.gk-status-error  { color: #e84040; }
+.gk-status.gk-status-warn   { color: #e89940; }
+.gk-status.gk-status-success { color: #40e890; }
+
+.gk-btn-check {
+  padding: 12px 24px;
+  background: #fff;
+  color: #0a0a0f;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.gk-btn-check:hover {
+  background: #7eb8f7;
+  transform: translateY(-1px);
+}
+
+/* Solved flash */
+.gk-sudoku.gk-solved .gk-sudoku-grid {
+  border-color: rgba(64,232,144,0.5);
+  animation: gk-glow 0.6s ease;
+}
+@keyframes gk-glow {
+  0%   { box-shadow: 0 0 0 0 rgba(64,232,144,0.4); }
+  50%  { box-shadow: 0 0 32px 8px rgba(64,232,144,0.2); }
+  100% { box-shadow: 0 0 0 0 rgba(64,232,144,0); }
+}
+
+/* ── Math challenge ──────────────────────────────────────── */
+.gk-math-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.gk-math-progress {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #555;
+  letter-spacing: 0.08em;
+}
+
+.gk-math-question {
+  font-size: 48px;
+  font-weight: 800;
+  color: #f0f0f0;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.gk-math-input {
+  width: 200px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 24px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.gk-math-input:focus {
+  border-color: rgba(126,184,247,0.5);
+}
+
+/* ── Background texture ──────────────────────────────────── */
+#gk-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(126,100,247,0.08) 0%, transparent 70%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.015) 39px,
+      rgba(255,255,255,0.015) 40px
+    );
+  pointer-events: none;
+  z-index: -1;
+}
